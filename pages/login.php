@@ -1,7 +1,4 @@
-<?php 
-  include './include/header.inc.php';
-  include './include/navbar.inc.php'
-?>
+
     <form class="col-md-6 col-lg-8 mx-auto">
         <h1>Login</h1>
   <div class="mb-3">
@@ -18,7 +15,5 @@
     <label class="form-check-label" for="exampleCheck1">Check me out</label>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
-  <?php 
-    include './include/footer.inc.php'
-  ?>
+
 
