@@ -1,41 +1,78 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-</head>
-<body>
-  <?php
-      if(isset($_POST['username'])){
-      echo $_POST['username'];
+<?php
+$name = $username = $passwd ='';
+$nameErr = $usernameErr = $passwdErr = '';
+if (isset($_POST['username'], $_POST['name'], $_POST['password'], $_POST['confirm_password'])) {
+  $name = $_POST['name'];
+  $username = trim($_POST['username']);
+  $passwd = trim($_POST['passwd']);
+  $confirmPasswd = trim($_POST['confirmPasswd']);
+  if (empty(($name))) {
+    $nameErr = 'Please input name ';
   }
-  ?>
+  if (empty(($username))) {
+    $usernameErr = 'Please input username ';
+  }
+  if (empty(($passwd))) {
+    $passwdErr = 'Please input password ';
+  }
+  if ($passwd !== $confirmPasswd) {
+    $passwdErr = 'Password and Confirm Password do not match ';
+  }
 
+  if (usernameExists($username)) {
+    $usernameErr = 'Username already exists ';
+  }
+  if (empty($nameErr) && empty($usernameErr) && empty($passwdErr)) {
+    if (registerUser($name, $username, $passwd)){
+      $name = $username = $passwd = '';
+      echo '<div class="alert alert-success" role="alert">
+       Registered. Go to <a href="./?page=login">Login</a>
+       </div>';
+    }
+    else{
+      echo '<div class="alert alert-danger" role="alert">
+       Username exists or Service busy!
+      </div>';
+    }
+  }
 
-    <form method="post" action="./?page=register" class="col-md-6 col-lg-8 mx-auto">
-        <h1>Register</h1>
+}
+?>
+
+<form method="post" action="./?page=register" class="col-md-6 col-lg-8 mx-auto">
+  <h1>Register</h1>
   <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <label class="form-label">Name</label>
+    <input type="text" name="name" value="<?php echo $name ?>" class="form-control
+     <?php echo empty($nameErr) ? '' : 'is-invalid' ?>">
+     <div class="invalid-feedback">
+      <?php 
+        echo $nameErr      
+      ?>
+     </div>
+  </div>
+  <div class="mb-3">
+    <label class="form-label">Username</label>
+    <input type="text" name="username" class="form-control
+     <?php echo empty($usernameErr) ? '' : 'is-invalid' ?> ">
+    <div class="invalid-feedback">
+      <?php echo $usernameErr ?>
+    </div>
   </div>
   <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+    <input type="password" name="passwd" class="form-control
+     <?php
+        echo empty($passwdErr) ? '' : 'is-invalid'
+     ?>">
+     <div class="invalid-feedback">
+       echo $passwdErr
+     </div>
   </div>
-   <div class="mb-3">
+  <div class="mb-3">
     <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
-    <input type="password" name="confirm_password" class="form-control" id="exampleInputPassword1">
-  </div>
-  <div class="mb-3 form-check">
-    <input type="checkbox" name="checkbox" class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    <input type="password" name="confirmPasswd" class="form-control " >
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>
+  
 </form>
-
-
-
-
