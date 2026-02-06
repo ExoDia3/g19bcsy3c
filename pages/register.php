@@ -1,18 +1,22 @@
 <?php
-$name = $username = $passwd ='';
-$nameErr = $usernameErr = $passwdErr = '';
-if (isset($_POST['username'], $_POST['name'], $_POST['password'], $_POST['confirm_password'])) {
-  $name = $_POST['name'];
+$name = '';
+$username = '';
+$passwd ='';
+$nameErr = '';
+$usernameErr = '';
+$passwdErr = '';
+if (isset($_POST['name'], $_POST['username'], $_POST['passwd'], $_POST['confirmPasswd'])) {
+  $name = trim($_POST['name']);
   $username = trim($_POST['username']);
   $passwd = trim($_POST['passwd']);
   $confirmPasswd = trim($_POST['confirmPasswd']);
-  if (empty(($name))) {
+  if (empty($name)) {
     $nameErr = 'Please input name ';
   }
-  if (empty(($username))) {
+  if (empty($username)) {
     $usernameErr = 'Please input username ';
   }
-  if (empty(($passwd))) {
+  if (empty($passwd)) {
     $passwdErr = 'Please input password ';
   }
   if ($passwd !== $confirmPasswd) {
@@ -60,17 +64,17 @@ if (isset($_POST['username'], $_POST['name'], $_POST['password'], $_POST['confir
     </div>
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <label class="form-label">Password</label>
     <input type="password" name="passwd" class="form-control
      <?php
         echo empty($passwdErr) ? '' : 'is-invalid'
      ?>">
      <div class="invalid-feedback">
-       echo $passwdErr
+       <?php echo $passwdErr?>
      </div>
   </div>
   <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Confirm Password</label>
+    <label class="form-label">Confirm Password</label>
     <input type="password" name="confirmPasswd" class="form-control " >
   </div>
   <button type="submit" class="btn btn-primary">Submit</button>

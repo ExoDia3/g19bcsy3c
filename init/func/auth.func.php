@@ -32,6 +32,8 @@ function registerUser($name, $username, $passwd)
 function logUserIn($username, $passwd)
 {
     global $db;
+
+
     $query = $db->prepare('SELECT * FROM tbl_users WHERE username = ? AND passwd = ?');
     $query->bind_param( 'ss', $username, $passwd);
     $query->execute();
@@ -47,14 +49,15 @@ function loggedInUser(){
         return null;
     }
     $user_id = $_SESSION['user_id'];
+    // echo $user_id;
     $query = $db->prepare('SELECT * FROM tbl_users WHERE id = ?');
     $query->bind_param('d', $user_id );
     $query->execute();
     $result = $query->get_result();
-    if ($query->num_rows){
+    if ($result->num_rows){
         return $result->fetch_object();
     }
     return null;
 }
 
-?>·
+?>
